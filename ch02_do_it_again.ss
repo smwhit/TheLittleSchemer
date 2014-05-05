@@ -33,4 +33,6 @@
       ((eq? (car lat) a) #t)
       (else (member2? a (cdr lat))))))
 
-(member2? 'a '(a b c))
+(member2? 'meat '(mashed potatoes and meat gravy))
+(member? 'meat '(mashed potatoes and meat gravy))
+(member? 'carrots '(mashed potatoes and meat gravy))
