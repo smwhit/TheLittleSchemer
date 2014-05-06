@@ -9,3 +9,6 @@
 ;When recurring on a number use (sub1 n)
 ;When recurring on a list of S-expressions, l, use (car l) and (cdr l),
 ;if neither (null? l) nor (atom? (car l)) are true
+
+;Commandment #8
+;Use help functions to abstract from representations
