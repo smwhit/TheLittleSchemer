@@ -76,8 +76,31 @@
       ((member? (car set1) (cdr set2)) #t)
       (else (intersect? (cdr set1) set2)))))
 
+(define intersectb?
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) #f)
+      (else (or (member? (car set1)(cdr set2))
+          (intersect? (cdr set1) set2))))))
+      
 (intersect? '(stewed tomatoes and macaroni)
             '(macaroni and cheese))
 (intersect? '() '(x y z))
 (intersect? '(a) '(x y z))
+
+(intersectb? '(stewed tomatoes and macaroni)
+            '(macaroni and cheese))
+(intersectb? '() '(x y z))
+(intersectb? '(a) '(x y z))
+
+(define intersect
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) (quote()))
+      ((member? (car set1) set2) 
+       (cons (car set1) (intersect (cdr set1) set2)))
+      (else (intersect (cdr set1) set2)))))
+
+(intersect '(stewed tomatoes and macaroni)
+           '(macaroni and cheese))
                  
