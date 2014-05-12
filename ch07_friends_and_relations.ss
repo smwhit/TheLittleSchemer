@@ -166,10 +166,59 @@
 
 (define third
   (lambda (p)
-    (car (car (cdr p)))))
+    (car (cdr (cdr p)))))
 
 (first '(a b c))
 (second '(a b c))
 (build '(a) '(b))
 (build 'a 'b)
-      
+(third '(a b c))
+
+(define fun?
+  (lambda (rel)
+    (set? (firsts rel))))
+
+(fun? '((8 3)(4 2)(7 6)(6 2)(3 4)))
+(fun? '((d 4)(b 0)(b 9)(e 5)(g 4)))
+
+(define revrel
+  (lambda (rel)
+    (cond
+      ((null? rel) (quote ()))
+      (else (cons (build 
+                   (second (car rel))
+                   (first (car rel)))
+                  (revrel (cdr rel)))))))
+
+;not using help functions decreases readability
+(define revrel2
+  (lambda (rel)
+    (cond
+      ((null? rel)(quote()))
+      (else (cons (cons
+                   (car (cdr (car rel)))
+                  (cons (car (car rel))
+                        (quote())))
+            (revrel2 (cdr rel)))))))
+        
+(revrel '((a 8)(pie pumpkin)(sick got)))
+(revrel2 '((a 8)(pie pumpkin)(sick got)))
+
+(define revpair
+  (lambda (pair)
+    (build (second pair)(first pair))))
+
+(define revrel3
+  (lambda (rel)
+    (cond
+      ((null? rel) (quote()))
+      (else (cons (revpair (car rel))
+                  (revrel (cdr rel)))))))
+
+(revrel3 '((a 8)(pie pumpkin)(sick got)))
+
+(define fullfun?
+  (lambda (fun)
+    (set? (seconds fun))))
+           
+                     
