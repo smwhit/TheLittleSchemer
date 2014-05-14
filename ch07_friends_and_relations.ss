@@ -217,8 +217,18 @@
 
 (revrel3 '((a 8)(pie pumpkin)(sick got)))
 
+(define seconds
+  (lambda (l)
+    (cond
+      ((null? l)(quote()))
+      (else (cons (second (car l)) (seconds (cdr l)))))))
+    
 (define fullfun?
   (lambda (fun)
     (set? (seconds fun))))
+
+(fullfun? '((grape raisin)(plum prune)(stewed prune)))
+(fullfun? '((grape raisin)(plum prune)(stewed grape)))
+(seconds '((a b)(c d)))
            
                      
