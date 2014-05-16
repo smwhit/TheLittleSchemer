@@ -34,3 +34,47 @@
 
 (shift '((a b) c))
 (shift '((a b)(c d)))
+
+(define align
+  (lambda (pora)
+    (cond
+      ((atom? pora) pora) ((a-pair? (first pora)) (align (shift pora)))
+      (else (build (first pora)
+                   (align (second pora)))))))
+
+(define length*
+  (lambda (pora)
+    (cond
+      ((atom? pora) 1)
+      (else 
+       (+ (length* (first pora))
+          (length* (second pora)))))))
+
+(define weight*
+  (lambda (pora)
+    (cond
+      ((atom? pora) 1)
+      (else
+       (+ (* (weight* (first pora)) 2)
+          (weight* (second pora)))))))
+
+(weight* '((a b) c))
+(weight* '(a (b c)))
+;weight looks at all arguments of a pair, it is total
+
+(define shuffle
+  (lambda (pora)
+    (cond
+      ((atom? pora) pora)
+      ((a-pair? (first pora))
+                (shuffle (revpair pora)))
+      (else (build (first pora)
+                   (shuffle (second pora)))))))
+
+(shuffle '(a (b c)))
+(shuffle '(a b))
+;(shuffle '((a b)(c d)))
+       
+
+
+      
