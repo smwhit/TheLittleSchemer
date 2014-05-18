@@ -20,10 +20,14 @@
 ; Functions in the book previously have been 'total' functions
 
 (define eternity
+  (lambda (x)
+    (eternity x)))
+
+(define eternity2
   (lambda (x n)
     (display n)
     (newline)
-    (eternity x (+ 1 n))))
+    (eternity2 x (+ 1 n))))
 
 ;(eternity 'a 0)
 
@@ -73,8 +77,161 @@
 
 (shuffle '(a (b c)))
 (shuffle '(a b))
-;(shuffle '((a b)(c d)))
+;(shuffle '((a b)(c d))) ;infinite!
+
+;http://en.wikipedia.org/wiki/Collatz_conjecture
+(define C
+  (lambda (n)
+    (cond
+      ((one? n) 1)
+      (else
+       (cond
+         ((even? n) (C (/ n 2)))
+         (else (C (add1 (* 3 n)))))))))
        
+(C 10)
+
+;http://en.wikipedia.org/wiki/Ackermann_function
+(define A
+  (lambda (n m)
+    (cond
+      ((zero? n) (add1 m))
+      ((zero? m) (A (sub1 n) 1))
+      (else (A (sub1 n)
+               (A n (sub1 m)))))))
+
+(A 0 0)
+(A 1 0)
+(A 1 1)
+(A 2 2)
+;(A 3 3)
+;(A 4 3)
+
+(define will-stop?
+  (lambda (f)
+    ;... ;cannot define
+    (write 'impossible)))
+
+
+((lambda (l)
+  (cond
+    ((null? l) 0)
+    (else (add1 (eternity (cdr l)))))) '())
+
+((lambda (l)
+  (cond
+    ((null? l) 0)
+    (else 
+     (add1 
+      ((lambda (l)
+         (cond
+           ((null? l) 0)
+           (else (add1
+                  (eternity (cdr l))))))
+         (cdr l)))))) '(1))
+            
+((lambda (l)
+  (cond
+    ((null? l) 0)
+    (else
+     (add1
+      ((lambda (l)
+         (cond
+           ((null? l) 0)
+           (else
+            (add1
+             ((lambda (l)
+                (cond
+                  ((null? l) 0)
+                  (else
+                   (add1 (eternity (cdr l))))))
+              (cdr l))))))
+       (cdr l)))))) '(1 2))
+
+(((lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l)))))))
+ eternity) '())
+
+(((lambda (f)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (f (cdr l)))))))
+ ((lambda (g)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (add1 (g (cdr l)))))))
+ eternity)) '(q))
+
+(((lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l)))))))
+   ((lambda (length)
+      (lambda (l)
+        (cond
+          ((null? l) 0)
+          (else (add1 (length (cdr l)))))))
+    ((lambda (length)
+       (lambda (l)
+         (cond
+           ((null? l) 0)
+           (else (add1 (length (cdr l)))))))
+     eternity))) '(1 2))
+     
+(((lambda (mk-length)
+   (mk-length eternity))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l)))))))) '())
+
+(((lambda (mk-length)
+   (mk-length
+    (mk-length eternity)))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l)))))))) '(a))
+
+(((lambda (mk-length)
+    (mk-length
+     (mk-length
+      (mk-length eternity))))
+  (lambda (length)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (add1 (length (cdr l)))))))) '(a b))
+
+(((lambda (mk-length)
+    (mk-length
+     (mk-length
+      (mk-length
+       (mk-length eternity)))))
+  (lambda (length)
+    (lambda (l)
+      (cond
+        ((null? l) 0)
+        (else (add1 (length (cdr l)))))))) '(a b c))
+
+(((lambda (mk-length)
+   (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 
+              (mk-length (cdr l)))))))) '(a b c d))
+
+(write "hello")
 
 
       
