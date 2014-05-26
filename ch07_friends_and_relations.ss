@@ -229,6 +229,6 @@
 
 (fullfun? '((grape raisin)(plum prune)(stewed prune)))
 (fullfun? '((grape raisin)(plum prune)(stewed grape)))
-(seconds '((a b)(c d)))
+;(seconds '((a b)(c d)))
            
                      

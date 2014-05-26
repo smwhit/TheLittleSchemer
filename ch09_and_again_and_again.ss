@@ -228,8 +228,43 @@
    (lambda (l)
      (cond
        ((null? l) 0)
-       (else (add1 
-              (mk-length (cdr l)))))))) '(a b c d))
+       (else
+         (add1
+           ((mk-length mk-length) (cdr l))))))))
+ '(1 2 3 4 5))
+
+;(((lambda (mk-length)
+;   (mk-length mk-length))
+; (lambda (mk-length)
+;   ((lambda (length)
+;      (lambda (l)
+;        (cond 
+;          ((null? l) 0)
+;          (else (add1 (length (cdr l)))))))
+;   (mk-length mk-length)))) '(apples))
+
+
+;(((lambda (mk-length) 
+;    (mk-length mk-length))
+;  (lambda (mk-length) 
+;    ((lambda (length)
+;      (lambda (l) (cond
+;                    ((null? l) 0)
+;                    (else (addl (length (cdr l))))))) (mk-length mk-length))))
+;'(apples))
+
+(((lambda (le)
+   ((lambda (mk-length)
+      (mk-length mk-length))
+    (lambda (mk-length)
+      (le (lambda (x)
+            ((mk-length mk-length) x))))))
+ (lambda (length)
+   (lambda (l)
+     (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l)))))))) '(apples and pears))
+;wot?
 
 (write "hello")
 
